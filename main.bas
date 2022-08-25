@@ -360,6 +360,18 @@ Sub FormatChartTitles(cht As Chart)
             ax.TickLabels.Font.Size = 9
             ax.TickLabels.Format.Fill.Visible = msoFalse
             ax.TickLabels.Font.Color = RGB(60, 60, 60)
+            
+            
+            ' Force TickLabels to be horizontal if they're either:
+            ' - Set to a custom angle less than -45deg or greater than 15deg
+            ' (The sign of custom angles is inverted, apparently.)
+            ' - Set to a XlTickLabelOrientation constant
+            '
+            ' This allows *some* leeway for cramming labels in that are slightly rotated from horizontal
+            
+            If ax.TickLabels.Orientation < -15 Or ax.TickLabels.Orientation > 45 Then
+                ax.TickLabels.Orientation = xlTickLabelOrientationHorizontal
+            End If
         End If
         
     Next ax
@@ -832,3 +844,5 @@ Sub FormatSPCWithLinesCL(chtSeries As Series)
     Next i
 
 End Sub
+
+
