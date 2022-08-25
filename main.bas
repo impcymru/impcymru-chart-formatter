@@ -149,7 +149,7 @@ Sub SetChartSize(cht As Chart)
 
 End Sub
 
-Function RGBImpCymruColourQualitative(i)
+Function RGBImpCymruColourQualitative(i As Variant)
     
     
     Select Case i
@@ -168,7 +168,7 @@ Function RGBImpCymruColourQualitative(i)
 End Function
 
 
-Function RGBImpCymruColourPrimary(i)
+Function RGBImpCymruColourPrimary(i As Variant)
     ' These are taken from the Primary colour palette of the Improvement Cymru brand guidelines
 
     Select Case i
@@ -189,7 +189,7 @@ Function RGBImpCymruColourPrimary(i)
 End Function
 
 
-Function RGBImpCymruColourAnalytical(i)
+Function RGBImpCymruColourAnalytical(i As Variant)
 
     ' https://www.hsluv.org/
     ' https://contrastchecker.com/
@@ -710,7 +710,7 @@ Sub FormatOtherTypeBarOrColumnSeries(chtSeries As Series)
 
 End Sub
 
-Sub FormatBarOrColumnSeries(chtSeries As Series, Optional dataSeriesIndex)
+Sub FormatBarOrColumnSeries(chtSeries As Series, Optional dataSeriesIndex As Variant)
 
     chtSeries.Format.Fill.ForeColor.RGB = RGBImpCymruColourQualitative(dataSeriesIndex)
             
@@ -814,7 +814,7 @@ Sub FormatSPCWithLines(cht As Chart)
 
 End Sub
 
-Sub FormatBasicLineChartSeries(chtSeries As Series, Optional dataSeriesIndex)
+Sub FormatBasicLineChartSeries(chtSeries As Series, Optional dataSeriesIndex As Variant)
     Dim PntVisible() As MsoTriState
     Dim PntDashStyle() As MsoLineDashStyle
     
