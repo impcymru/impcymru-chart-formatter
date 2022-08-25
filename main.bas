@@ -1,3 +1,4 @@
+
 Option Explicit
 
 Sub ImpCymruFormatActiveChart()
@@ -104,15 +105,15 @@ Sub SetChartSize(cht As Chart)
     Dim minChartHeightPoints As Long
     minChartHeightPoints = Application.CentimetersToPoints(10)
     
-    Dim minChartWidthPoints As Long
-    minChartWidthPoints = minChartHeightPoints
-    
     Dim maxChartWidthPoints As Long
     maxChartWidthPoints = Application.CentimetersToPoints(21)
     
     If cht.ChartArea.Height < minChartHeightPoints Then
         cht.ChartArea.Height = minChartHeightPoints
     End If
+    
+    Dim minChartWidthPoints As Long
+    minChartWidthPoints = cht.ChartArea.Height
     
     Dim maxPointsCount As Double
     Dim seriesPointsCount As Double
@@ -923,5 +924,7 @@ Sub FormatSPCWithLinesCL(chtSeries As Series)
     Next i
 
 End Sub
+
+
 
 
