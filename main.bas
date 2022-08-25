@@ -1,3 +1,5 @@
+Option Explicit
+
 Sub ImpCymruFormatActiveChart()
     Dim cht As Chart
 
@@ -19,9 +21,16 @@ Sub ImpCymruFormatActiveChart()
     MakeChart2D cht
     MakePieIntoBar cht
     
+    Dim isSPCWithLinesCounter As Integer
     isSPCWithLinesCounter = 0
+    
+    Dim isLineChartCounter As Integer
     isLineChartCounter = 0
+    
+    Dim isBarOrColumnChartCounter As Integer
     isBarOrColumnChartCounter = 0
+    
+    Dim isRunChartCounter As Integer
     isRunChartCounter = 0
 
     
@@ -92,15 +101,21 @@ End Sub
 
 Sub SetChartSize(cht As Chart)
 
+    Dim minChartHeightPoints As Long
     minChartHeightPoints = Application.CentimetersToPoints(10)
     
+    Dim minChartWidthPoints As Long
     minChartWidthPoints = minChartHeightPoints
+    
+    Dim maxChartWidthPoints As Long
     maxChartWidthPoints = Application.CentimetersToPoints(21)
     
     If cht.ChartArea.Height < minChartHeightPoints Then
         cht.ChartArea.Height = minChartHeightPoints
     End If
     
+    Dim maxPointsCount As Double
+    Dim seriesPointsCount As Double
     maxPointsCount = 1
     
     Dim chtSeries As Series
@@ -120,6 +135,7 @@ Sub SetChartSize(cht As Chart)
         End If
     Next chtSeries
     
+    Dim chartWidthPoints As Long
     chartWidthPoints = Application.CentimetersToPoints(3) + (maxPointsCount * Application.CentimetersToPoints(1.8))
     
     If chartWidthPoints < minChartWidthPoints Then
@@ -246,6 +262,7 @@ Sub FormatPercentAxes(cht As Chart)
         Exit Sub
     End If
     
+    Dim initialRange As Double
     initialRange = ax.MaximumScale - ax.MinimumScale
     
     If ax.MinimumScale > 0 And (ax.MinimumScale - (0.5 * initialRange)) < 0 Then
@@ -255,8 +272,6 @@ Sub FormatPercentAxes(cht As Chart)
     If ax.MaximumScale < 1 And (ax.MaximumScale + (0.5 * initialRange)) > 1 Then
         ax.MaximumScale = 1
     End If
-    
-    newRange = ax.MaximumScale - ax.MinimumScale
 
 
     'VBA Mod only deals in Integers
@@ -284,6 +299,7 @@ Sub FormatDateAxes(cht As Chart)
         Exit Sub
     End If
     
+    Dim minScale As Variant
     minScale = Null
 
     minScale = ax.MinimumScale
@@ -305,6 +321,7 @@ End Sub
 
 Sub AddCaption(cht As Chart)
 
+    Dim captionName As String
     captionName = "Caption"
     
     Dim shp As Shape
@@ -441,6 +458,8 @@ Sub FormatGridLines(cht As Chart)
         ax.MinorGridlines.Format.Line.Visible = msoFalse
         ax.MinorTickMark = xlTickMarkNone
         
+        Dim gridlineCount As Long
+        
         ' TODO - Handle dates
         If ax.Type = xlValue Then
             gridlineCount = 1 + (ax.MaximumScale - ax.MinimumScale) / ax.MajorUnit
@@ -464,12 +483,18 @@ Sub ReorientBarOrColumnChart(cht As Chart)
     Dim srs As Series
     Set srs = cht.SeriesCollection(1)
     
-    MaxLength = 0
+    Dim maxLength As Long
+    Dim totalLength As Long
+    Dim meanLength As Double
+    
+    maxLength = 0
     totalLength = 0
     
+    
+    Dim xv As Variant
     For Each xv In srs.XValues
-        If Len(xv) > MaxLength Then
-            MaxLength = Len(xv)
+        If Len(xv) > maxLength Then
+            maxLength = Len(xv)
         End If
         
         totalLength = totalLength + Len(xv)
@@ -478,7 +503,7 @@ Sub ReorientBarOrColumnChart(cht As Chart)
 
     meanLength = totalLength / (UBound(srs.XValues))
     
-    If meanLength > 10 Or MaxLength > 15 Then
+    If meanLength > 10 Or maxLength > 15 Then
         If cht.ChartType = xlColumnStacked Then
             cht.ChartType = xlBarStacked
         End If
@@ -513,6 +538,7 @@ Sub FormatPieChart(cht As Chart)
 
     Dim pnt As Point
  
+    Dim i As Long
     For i = 1 To srs.Points.Count
         Set pnt = srs.Points(i)
         
@@ -549,6 +575,7 @@ Sub FormatBarOrColumnChart(cht As Chart)
 
     Dim chtSeries As Series
     
+    Dim dataSeriesIndex As Long
     dataSeriesIndex = 1
     For Each chtSeries In cht.SeriesCollection
         If chtSeries.Type = xlBar Or chtSeries.Type = xlColumn Then
@@ -669,6 +696,7 @@ End Sub
 Sub FormatOtherTypeBarOrColumnSeries(chtSeries As Series)
     ' This tries to find Other or Missing bars and re colour them
     
+    Dim i As Long
     For i = LBound(chtSeries.XValues) To UBound(chtSeries.XValues)
         
         If _
@@ -690,7 +718,7 @@ Sub FormatBarOrColumnSeries(chtSeries As Series, Optional dataSeriesIndex)
 End Sub
 
 Sub FormatLineChart(cht As Chart)
-    
+    Dim dataSeriesIndex As Long
     dataSeriesIndex = 1
     
     Dim chtSeries As Series
@@ -739,6 +767,8 @@ Sub FormatRunChartCL(chtSeries As Series)
     ReDim PntVisible(1 To chtSeries.Points.Count)
     ReDim PntDashStyle(1 To chtSeries.Points.Count)
 
+    Dim i As Long
+
     For i = LBound(PntVisible) To UBound(PntVisible)
         PntVisible(i) = chtSeries.Points(i).Format.Line.Visible
         PntDashStyle(i) = chtSeries.Points(i).Format.Line.DashStyle
@@ -762,8 +792,6 @@ End Sub
 Sub FormatSPCWithLines(cht As Chart)
 
     Dim chtSeries As Series
-    
-    Dim breaks As String
 
     For Each chtSeries In cht.SeriesCollection
     
@@ -795,6 +823,7 @@ Sub FormatBasicLineChartSeries(chtSeries As Series, Optional dataSeriesIndex)
 
     ' TODO: Respect individually recoloured points?
 
+    Dim i As Long
     For i = LBound(PntVisible) To UBound(PntVisible)
         PntVisible(i) = chtSeries.Points(i).Format.Line.Visible
         PntDashStyle(i) = chtSeries.Points(i).Format.Line.DashStyle
@@ -847,6 +876,7 @@ Sub FormatSPCWithLinesUCLOrLCL(chtSeries As Series)
     ReDim PntVisible(1 To chtSeries.Points.Count)
     ReDim PntDashStyle(1 To chtSeries.Points.Count)
 
+    Dim i As Long
     For i = LBound(PntVisible) To UBound(PntVisible)
         PntVisible(i) = chtSeries.Points(i).Format.Line.Visible
         PntDashStyle(i) = chtSeries.Points(i).Format.Line.DashStyle
@@ -872,6 +902,8 @@ Sub FormatSPCWithLinesCL(chtSeries As Series)
     
     ReDim PntVisible(1 To chtSeries.Points.Count)
     ReDim PntDashStyle(1 To chtSeries.Points.Count)
+
+    Dim i As Long
 
     For i = LBound(PntVisible) To UBound(PntVisible)
         PntVisible(i) = chtSeries.Points(i).Format.Line.Visible
