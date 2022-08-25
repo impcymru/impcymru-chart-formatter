@@ -299,17 +299,7 @@ Sub FormatChartLayout(cht As Chart)
 
     ' Pie charts are special cased because of the way that the data labels work
     If cht.ChartType = xlPie Or cht.ChartType = xlPieExploded Then
-        
-        If cht.HasTitle Then
-            cht.PlotArea.Height = cht.ChartArea.Height - (cht.ChartTitle.Height + cht.ChartTitle.Top) - 100
-            cht.PlotArea.Top = cht.ChartTitle.Height + cht.ChartTitle.Top + 30
-        Else
-            cht.PlotArea.Top = 30
-            cht.PlotArea.Height = cht.ChartArea.Height - 100
-        End If
-        
-
-        cht.PlotArea.Left = cht.ChartArea.Width / 2 - cht.PlotArea.Width / 2
+        FormatPieChartLayout cht
         Exit Sub
     End If
        
@@ -328,6 +318,19 @@ Sub FormatChartLayout(cht As Chart)
     cht.PlotArea.Width = cht.ChartArea.Width - cht.PlotArea.Left * 3
     
 
+End Sub
+
+Sub FormatPieChartLayout(cht As Chart)
+    If cht.HasTitle Then
+        cht.PlotArea.Height = cht.ChartArea.Height - (cht.ChartTitle.Height + cht.ChartTitle.Top) - 100
+        cht.PlotArea.Top = cht.ChartTitle.Height + cht.ChartTitle.Top + 30
+    Else
+        cht.PlotArea.Top = 30
+        cht.PlotArea.Height = cht.ChartArea.Height - 100
+    End If
+        
+
+    cht.PlotArea.Left = cht.ChartArea.Width / 2 - cht.PlotArea.Width / 2
 End Sub
 
 Sub FormatChartTitles(cht As Chart)
