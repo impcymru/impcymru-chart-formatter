@@ -79,6 +79,8 @@ Sub ImpCymruFormatActiveChart()
     
     FormatChartTitles cht
     FormatGridLines cht
+    
+    SetChartSize cht
     FormatChartLayout cht
 
     FormatDateAxes cht
@@ -88,7 +90,48 @@ Sub ImpCymruFormatActiveChart()
     AddCaption cht
 End Sub
 
+Sub SetChartSize(cht As Chart)
 
+    minChartHeightPoints = Application.CentimetersToPoints(10)
+    
+    minChartWidthPoints = minChartHeightPoints
+    maxChartWidthPoints = Application.CentimetersToPoints(21)
+    
+    If cht.ChartArea.Height < minChartHeightPoints Then
+        cht.ChartArea.Height = minChartHeightPoints
+    End If
+    
+    maxPointsCount = 1
+    
+    Dim chtSeries As Series
+    
+    For Each chtSeries In cht.SeriesCollection
+        If chtSeries.Type = xlLine Or chtSeries.Type = xlColumn Then
+            seriesPointsCount = chtSeries.Points.Count
+            
+            'HACK
+            If chtSeries.Type = xlColumn Then
+                seriesPointsCount = 0.8 * seriesPointsCount
+            End If
+            
+            If seriesPointsCount > maxPointsCount Then
+                maxPointsCount = seriesPointsCount
+            End If
+        End If
+    Next chtSeries
+    
+    chartWidthPoints = Application.CentimetersToPoints(3) + (maxPointsCount * Application.CentimetersToPoints(1.8))
+    
+    If chartWidthPoints < minChartWidthPoints Then
+        chartWidthPoints = minChartWidthPoints
+    ElseIf chartWidthPoints > maxChartWidthPoints Then
+        chartWidthPoints = maxChartWidthPoints
+    End If
+    
+    cht.ChartArea.Width = chartWidthPoints
+    
+
+End Sub
 
 Function RGBImpCymruColourQualitative(i)
     
@@ -321,6 +364,7 @@ Sub FormatChartLayout(cht As Chart)
 End Sub
 
 Sub FormatPieChartLayout(cht As Chart)
+
     If cht.HasTitle Then
         cht.PlotArea.Height = cht.ChartArea.Height - (cht.ChartTitle.Height + cht.ChartTitle.Top) - 100
         cht.PlotArea.Top = cht.ChartTitle.Height + cht.ChartTitle.Top + 30
