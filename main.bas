@@ -616,19 +616,28 @@ Sub FormatBarOrColumnChart(cht As Chart)
         End If
     Next chtSeries
     
+    ' This tries to implement ONS guidance
+    ' Single-series charts should have gaps that are considerably narrower than the bars
+    ' Clustered bar charts should have gaps that are 'slightly wider than a single bar'
+    
+    Dim TargetGapWidth As Long
+    TargetGapWidth = 40
+    
+    If cht.SeriesCollection.Count > 1 Then
+        TargetGapWidth = 105
+    End If
+    
     Dim barGrp As ChartGroup
     
     For Each barGrp In cht.BarGroups
-        
-        barGrp.GapWidth = 40
+        barGrp.GapWidth = TargetGapWidth
         barGrp.Overlap = 0
     Next barGrp
     
     For Each barGrp In cht.ColumnGroups
-        barGrp.GapWidth = 40
+        barGrp.GapWidth = TargetGapWidth
         barGrp.Overlap = 0
-    Next barGrp
-    
+    Next barGr
 
 End Sub
 
