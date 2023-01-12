@@ -108,6 +108,17 @@ Sub SetChartSize(cht As Chart)
     Dim maxChartWidthPoints As Long
     maxChartWidthPoints = Application.CentimetersToPoints(21)
     
+    If cht.ChartType = xlBarStacked Or _
+        cht.ChartType = xlBarClustered Or _
+        cht.ChartType = xl3DBarStacked100 Then
+        
+        cht.ChartArea.Width = maxChartWidthPoints * 0.8
+        cht.ChartArea.Height = cht.ChartArea.Width * 1 / 2
+        
+        Exit Sub
+    End If
+    
+    
     If cht.ChartArea.Height < minChartHeightPoints Then
         cht.ChartArea.Height = minChartHeightPoints
     End If
