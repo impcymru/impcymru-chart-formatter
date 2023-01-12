@@ -1,6 +1,7 @@
 
 Option Explicit
 
+
 Sub ImpCymruFormatActiveChart()
     Dim cht As Chart
 
@@ -64,6 +65,8 @@ Sub ImpCymruFormatActiveChart()
         FormatLineChart cht
     End If
     
+    SetChartSize cht
+    
     'TODO: Check if this is better to handle with cht.ChartType
     If isBarOrColumnChartCounter > 0 Then
         If isLineChartCounter = 0 Then
@@ -90,7 +93,6 @@ Sub ImpCymruFormatActiveChart()
     FormatChartTitles cht
     FormatGridLines cht
     
-    SetChartSize cht
     FormatChartLayout cht
 
     FormatDateAxes cht
