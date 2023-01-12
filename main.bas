@@ -649,15 +649,18 @@ Sub FormatDataLabelsForBarOrColumnSeries(chtSeries As Series)
         chtSeries.DataLabels.Font.Name = "Arial"
     End If
     
+    Dim pntColour As Variant
+    
     For Each pnt In chtSeries.Points
         If pnt.HasDataLabel Then
             pnt.DataLabel.Font.Name = "Arial"
             pnt.DataLabel.Position = xlLabelPositionInsideEnd
             pnt.DataLabel.Format.TextFrame2.TextRange.Font.Fill.ForeColor.RGB = RGB(255, 255, 255)
-
+                
+            pntColour = pnt.Format.Fill.ForeColor.RGB
 
             With pnt.DataLabel.Format.TextFrame2.TextRange.Font.Glow
-                .Color.RGB = chtSeries.Format.Fill.ForeColor.RGB
+                .Color.RGB = pntColour
                 .Transparency = 0
                 .Radius = 10
             End With
@@ -671,7 +674,7 @@ Sub FormatDataLabelsForBarOrColumnSeries(chtSeries As Series)
                     pnt.DataLabel.Position = xlLabelPositionInsideBase
                 End If
                 
-                pnt.DataLabel.Format.TextFrame2.TextRange.Font.Fill.ForeColor.RGB = chtSeries.Format.Fill.ForeColor.RGB
+                pnt.DataLabel.Format.TextFrame2.TextRange.Font.Fill.ForeColor.RGB = pntColour
 
                 With pnt.DataLabel.Format.TextFrame2.TextRange.Font.Glow
                    .Color.RGB = RGB(255, 255, 255)
@@ -689,7 +692,7 @@ Sub FormatDataLabelsForBarOrColumnSeries(chtSeries As Series)
                     pnt.DataLabel.Position = xlLabelPositionInsideBase
                 End If
 
-                pnt.DataLabel.Format.TextFrame2.TextRange.Font.Fill.ForeColor.RGB = chtSeries.Format.Fill.ForeColor.RGB
+                pnt.DataLabel.Format.TextFrame2.TextRange.Font.Fill.ForeColor.RGB = pntColour
                 
                 With pnt.DataLabel.Format.TextFrame2.TextRange.Font.Glow
                    .Color.RGB = RGB(255, 255, 255)
