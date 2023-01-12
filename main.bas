@@ -377,9 +377,6 @@ Sub FormatChartLayout(cht As Chart)
         Exit Sub
     End If
        
-    'TODO Handle y-axis label, noting this could be on left or right
-    
-    
     If cht.HasTitle Then
         cht.PlotArea.Height = cht.ChartArea.Height - (cht.ChartTitle.Height + cht.ChartTitle.Top) - 38
         cht.PlotArea.Top = cht.ChartTitle.Height + cht.ChartTitle.Top + 12
@@ -388,10 +385,23 @@ Sub FormatChartLayout(cht As Chart)
         cht.PlotArea.Height = cht.ChartArea.Height - 48
     End If
     
+    Dim rightMargin As Long
     cht.PlotArea.Left = 15
-    cht.PlotArea.Width = cht.ChartArea.Width - cht.PlotArea.Left * 3
+    rightMargin = 25
     
-
+    If cht.Axes(xlValue).HasTitle Then
+        If cht.Axes(xlValue).AxisTitle.Left < (0.5 * cht.ChartArea.Width) Then
+            cht.Axes(xlValue).AxisTitle.Left = 5
+            cht.PlotArea.Left = cht.PlotArea.Left + cht.Axes(xlValue).AxisTitle.Left + cht.Axes(xlValue).AxisTitle.Width - 5
+        Else
+            cht.Axes(xlValue).AxisTitle.Left = cht.ChartArea.Width - cht.Axes(xlValue).AxisTitle.Width - 10
+            rightMargin = rightMargin + cht.Axes(xlValue).AxisTitle.Width - 10
+        End If
+        
+    End If
+    
+    cht.PlotArea.Width = cht.ChartArea.Width - cht.PlotArea.Left - rightMargin
+    
 End Sub
 
 Sub FormatPieChartLayout(cht As Chart)
