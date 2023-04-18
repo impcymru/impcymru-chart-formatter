@@ -69,8 +69,7 @@ Sub ImpCymruFormatActiveChart()
     ElseIf isLineChartCounter > 0 Then
         FormatLineChart cht
     End If
-    
-    SetChartSize cht
+
     
     'TODO: Check if this is better to handle with cht.ChartType
     If isBarOrColumnChartCounter > 0 Then
@@ -80,6 +79,8 @@ Sub ImpCymruFormatActiveChart()
     
         FormatBarOrColumnChart cht
     End If
+
+    SetChartSize cht
     
     If cht.ChartType = xlPie Or _
         cht.ChartType = xlPieExploded Or _
@@ -114,17 +115,7 @@ Sub SetChartSize(cht As Chart)
     
     Dim maxChartWidthPoints As Long
     maxChartWidthPoints = Application.CentimetersToPoints(21)
-    
-    If cht.ChartType = xlBarStacked Or _
-        cht.ChartType = xlBarClustered Or _
-        cht.ChartType = xl3DBarStacked100 Then
-        
-        cht.ChartArea.Width = maxChartWidthPoints * 0.8
-        cht.ChartArea.Height = cht.ChartArea.Width * 1 / 2
-        
-        Exit Sub
-    End If
-    
+
     
     If cht.ChartArea.Height < minChartHeightPoints Then
         cht.ChartArea.Height = minChartHeightPoints
@@ -140,7 +131,7 @@ Sub SetChartSize(cht As Chart)
     Dim chtSeries As Series
     
     For Each chtSeries In cht.SeriesCollection
-        If chtSeries.Type = xlLine Or chtSeries.Type = xlColumn Then
+        If chtSeries.Type = xlLine Or chtSeries.Type = xlColumn Or chtSeries.Type = xlBar Then
             seriesPointsCount = chtSeries.Points.Count
             
             'HACK
@@ -153,6 +144,23 @@ Sub SetChartSize(cht As Chart)
             End If
         End If
     Next chtSeries
+    
+    
+    If cht.ChartType = xlBarStacked Or _
+        cht.ChartType = xlBarClustered Or _
+        cht.ChartType = xlBarStacked100 Or _
+        cht.ChartType = xl3DBarStacked100 Then
+        
+        cht.ChartArea.Width = maxChartWidthPoints * 0.8
+        cht.ChartArea.Height = Application.CentimetersToPoints(3) + _
+            (maxPointsCount * cht.SeriesCollection.Count * Application.CentimetersToPoints(0.7))
+        
+        
+        
+        
+        Exit Sub
+    End If
+        
     
     Dim chartWidthPoints As Long
     chartWidthPoints = Application.CentimetersToPoints(3) + (maxPointsCount * Application.CentimetersToPoints(1.8))
@@ -980,4 +988,3 @@ Sub FormatSPCWithLinesCL(chtSeries As Series)
     Next i
 
 End Sub
-
