@@ -652,15 +652,31 @@ Sub FormatBarOrColumnChart(cht As Chart)
     
     Dim barGrp As ChartGroup
     
-    For Each barGrp In cht.BarGroups
-        barGrp.GapWidth = TargetGapWidth
-        barGrp.Overlap = 0
-    Next barGrp
     
-    For Each barGrp In cht.ColumnGroups
-        barGrp.GapWidth = TargetGapWidth
-        barGrp.Overlap = 0
-    Next barGr
+    If cht.ChartType <> xlBarStacked And cht.ChartType <> xlColumnStacked And _
+        cht.ChartType <> xlBarStacked100 And cht.ChartType <> xlColumnStacked100 Then
+    
+        For Each barGrp In cht.BarGroups
+            barGrp.GapWidth = TargetGapWidth
+            barGrp.Overlap = 0
+        Next barGrp
+        
+        For Each barGrp In cht.ColumnGroups
+            barGrp.GapWidth = TargetGapWidth
+            barGrp.Overlap = 0
+        Next barGrp
+    Else
+          For Each barGrp In cht.BarGroups
+            barGrp.GapWidth = TargetGapWidth
+            barGrp.Overlap = 100
+        Next barGrp
+        
+        For Each barGrp In cht.ColumnGroups
+            barGrp.GapWidth = TargetGapWidth
+            barGrp.Overlap = 100
+        Next barGrp
+    
+    End If
 
 End Sub
 
@@ -959,7 +975,4 @@ Sub FormatSPCWithLinesCL(chtSeries As Series)
     Next i
 
 End Sub
-
-
-
 
