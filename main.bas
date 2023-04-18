@@ -778,7 +778,7 @@ End Sub
 Sub FormatBarOrColumnSeries(chtSeries As Series, Optional dataSeriesIndex As Variant)
 
     chtSeries.Format.Fill.ForeColor.RGB = RGBImpCymruColourQualitative(dataSeriesIndex)
-            
+    chtSeries.Format.Line.Visible = msoFalse
 
 End Sub
 
