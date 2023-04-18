@@ -1,6 +1,11 @@
 
 Option Explicit
 
+'Callback for reformatChartButton onAction
+Sub ReformatChart(control As IRibbonControl)
+    ImpCymruFormatActiveChart
+End Sub
+
 
 Sub ImpCymruFormatActiveChart()
     Dim cht As Chart
