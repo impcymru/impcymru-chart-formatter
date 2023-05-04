@@ -172,6 +172,12 @@ Sub SetChartSize(cht As Chart)
     Dim chartWidthPoints As Long
     chartWidthPoints = Application.CentimetersToPoints(3) + (maxPointsCount * Application.CentimetersToPoints(1.8))
     
+    If cht.HasLegend Then
+        cht.Legend.Position = xlLegendPositionLeft 'HACK - Try to get the legend to resize!
+        chartWidthPoints = chartWidthPoints + cht.Legend.Width
+    End If
+    
+    
     If chartWidthPoints < minChartWidthPoints Then
         chartWidthPoints = minChartWidthPoints
     ElseIf chartWidthPoints > maxChartWidthPoints Then
@@ -315,6 +321,7 @@ Sub FormatPercentAxes(cht As Chart)
     End If
     
 
+
 End Sub
 
 Sub FormatDateAxes(cht As Chart)
@@ -419,6 +426,12 @@ Sub FormatChartLayout(cht As Chart)
         End If
         
     End If
+    
+    If cht.HasLegend Then
+        cht.Legend.Position = xlLegendPositionRight
+        rightMargin = rightMargin + cht.Legend.Width
+    End If
+    
     
     cht.PlotArea.Width = cht.ChartArea.Width - cht.PlotArea.Left - rightMargin
     
@@ -998,5 +1011,3 @@ Sub FormatSPCWithLinesCL(chtSeries As Series)
     Next i
 
 End Sub
-
-
