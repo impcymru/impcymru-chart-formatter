@@ -947,7 +947,7 @@ Sub FormatSPCWithLinesUCLOrLCL(chtSeries As Series)
         PntDashStyle(i) = chtSeries.Points(i).Format.Line.DashStyle
     Next i
     
-    chtSeries.Format.Line.ForeColor.RGB = RGBImpCymruColourAnalytical("Berry")
+    chtSeries.Format.Line.ForeColor.RGB = chtSeries.Format.Line.ForeColor.RGB = RGB(180, 180, 180)
     chtSeries.Format.Line.Weight = 1.5
     chtSeries.MarkerStyle = xlMarkerStyleNone
     
@@ -975,7 +975,7 @@ Sub FormatSPCWithLinesCL(chtSeries As Series)
         PntDashStyle(i) = chtSeries.Points(i).Format.Line.DashStyle
     Next i
     
-    chtSeries.Format.Line.ForeColor.RGB = RGB(180, 180, 180)
+    chtSeries.Format.Line.ForeColor.RGB = RGBImpCymruColourAnalytical("GoldenHamster")
     chtSeries.Format.Line.Weight = 1.5
     chtSeries.MarkerStyle = xlMarkerStyleNone
 
