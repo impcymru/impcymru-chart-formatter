@@ -43,11 +43,18 @@ Sub ImpCymruFormatActiveChart()
     
     For Each chtSeries In cht.SeriesCollection
     
-        If chtSeries.Name = "CL" Or chtSeries.Name = "Median" Then
+        If chtSeries.Name = "CL" Or _
+            chtSeries.Name = "Center" Or _
+            chtSeries.Name = "Centre" Or _
+            chtSeries.Name = "Median" Then
             isRunChartCounter = isRunChartCounter + 1
         End If
     
-        If chtSeries.Name = "UCL" Or chtSeries.Name = "CL" Or chtSeries.Name = "LCL" Then
+        If chtSeries.Name = "UCL" Or _
+            chtSeries.Name = "CL" Or _
+            chtSeries.Name = "Center" Or _
+            chtSeries.Name = "Centre" Or _
+            chtSeries.Name = "LCL" Then
             isSPCWithLinesCounter = isSPCWithLinesCounter + 1
         End If
         
@@ -807,9 +814,10 @@ Sub FormatRunChart(cht As Chart)
     Dim chtSeries As Series
 
     For Each chtSeries In cht.SeriesCollection
-        If chtSeries.Name = "CL" Then
-            FormatRunChartCL chtSeries
-        ElseIf chtSeries.Name = "Median" Then
+        If chtSeries.Name = "CL" Or _
+            chtSeries.Name = "Center" Or _
+            chtSeries.Name = "Centre" Or _
+            chtSeries.Name = "Median" Then
             FormatRunChartCL chtSeries
         Else
             FormatBasicLineChartSeries chtSeries, 1
@@ -864,7 +872,9 @@ Sub FormatSPCWithLines(cht As Chart)
             FormatSPCWithLinesUCLOrLCL chtSeries
         ElseIf chtSeries.Name = "LCL" Then
             FormatSPCWithLinesUCLOrLCL chtSeries
-        ElseIf chtSeries.Name = "CL" Then
+        ElseIf chtSeries.Name = "CL" Or _
+            chtSeries.Name = "Center" Or _
+            chtSeries.Name = "Centre" Then
             FormatSPCWithLinesCL chtSeries
         Else
             FormatBasicLineChartSeries chtSeries, 1
@@ -947,7 +957,7 @@ Sub FormatSPCWithLinesUCLOrLCL(chtSeries As Series)
         PntDashStyle(i) = chtSeries.Points(i).Format.Line.DashStyle
     Next i
     
-    chtSeries.Format.Line.ForeColor.RGB = chtSeries.Format.Line.ForeColor.RGB = RGB(180, 180, 180)
+    chtSeries.Format.Line.ForeColor.RGB = RGB(180, 180, 180)
     chtSeries.Format.Line.Weight = 1.5
     chtSeries.MarkerStyle = xlMarkerStyleNone
     
@@ -988,3 +998,5 @@ Sub FormatSPCWithLinesCL(chtSeries As Series)
     Next i
 
 End Sub
+
+
