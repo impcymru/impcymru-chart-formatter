@@ -21,7 +21,7 @@ Sub UpdateCheck()
     Dim current_version As String
     Dim repo As String
     
-    current_version = "2023-05-04T13-30"
+    current_version = "2023-08-01T10-55"
     repo = "impcymru/impcymru-chart-formatter"
     
     Dim hReq As Object
