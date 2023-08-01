@@ -6,6 +6,27 @@ Sub ReformatChart(control As IRibbonControl)
     ImpCymruFormatActiveChart
 End Sub
 
+'Callback for copyAndReformatChartButton onAction
+Sub CopyAndReformatChart(control As IRibbonControl)
+   Dim cht As Chart
+
+    Set cht = ActiveChart
+    
+    If cht Is Nothing Then
+        ' No chart selected
+        Exit Sub
+    End If
+    
+    cht.Parent.Duplicate
+    
+    Set cht = ActiveChart
+    
+    cht.Parent.BringToFront
+    cht.Parent.Left = cht.Parent.Left + 50
+    cht.Parent.Top = cht.Parent.Top + 50
+    
+    ImpCymruFormatActiveChart
+End Sub
 
 Sub ImpCymruFormatActiveChart()
     Dim cht As Chart
