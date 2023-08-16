@@ -210,71 +210,6 @@ Sub SetChartSize(cht As Chart)
 
 End Sub
 
-Function RGBImpCymruColourQualitative(i As Variant)
-    
-    
-    Select Case i
-        Case 1
-            RGBImpCymruColourQualitative = RGBImpCymruColourAnalytical("NightTrain")
-        Case 2
-            RGBImpCymruColourQualitative = RGBImpCymruColourAnalytical("ValentineHeart")
-        Case 3
-            RGBImpCymruColourQualitative = RGBImpCymruColourAnalytical("GoldenHamster")
-        Case 4
-            RGBImpCymruColourQualitative = RGBImpCymruColourAnalytical("Berry")
-        Case Else
-            RGBImpCymruColourQualitative = RGB(50 + Rnd(100), 50 + Rnd(100), 50 + Rnd(100))
-    End Select
-
-End Function
-
-
-Function RGBImpCymruColourPrimary(i As Variant)
-    ' These are taken from the Primary colour palette of the Improvement Cymru brand guidelines
-
-    Select Case i
-        Case "Navy"
-            RGBImpCymruColourPrimary = RGB(27, 87, 104)
-        Case "Teal"
-            RGBImpCymruColourPrimary = RGB(0, 154, 158)
-        Case "Green"
-            RGBImpCymruColourPrimary = RGB(27, 87, 104)
-        Case "Purple"
-            RGBImpCymruColourPrimary = RGB(87, 60, 114)
-        Case "Orange"
-            RGBImpCymruColourPrimary = RGB(206, 133, 1)
-        Case "Pink"
-            RGBImpCymruColourPrimary = RGB(173, 79, 132)
-    End Select
-
-End Function
-
-
-Function RGBImpCymruColourAnalytical(i As Variant)
-
-    ' https://www.hsluv.org/
-    ' https://contrastchecker.com/
-    ' TODO: Target WCAG AA against white backgrounds
-    ' Or provide &"AA" versions of the colours?
-    
-    Select Case i
-        Case "NightTrain"
-            RGBImpCymruColourAnalytical = RGB(74, 121, 134)
-            ' WCAG 2.0 1.4.3 'AA' compliant
-        Case "ValentineHeart"
-            RGBImpCymruColourAnalytical = RGB(190, 114, 157)
-        Case "Berry"
-            RGBImpCymruColourAnalytical = RGB(157, 15, 78)
-            ' WCAG 2.0 1.4.3 'AA' compliant
-            ' WCAG 2.0 1.4.6 'AAA' compliant
-        Case "GoldenHamster"
-            RGBImpCymruColourAnalytical = RGB(216, 159, 62)
-    End Select
-
-End Function
-
-
-
 Sub MakeChart2D(cht As Chart)
     Select Case cht.ChartType
         Case xl3DBarClustered
@@ -480,7 +415,7 @@ Sub FormatChartTitles(cht As Chart)
         cht.ChartTitle.Format.TextFrame2.TextRange.Font.Size = 16
         cht.ChartTitle.HorizontalAlignment = xlHAlignLeft
         cht.ChartTitle.Left = 15
-        cht.ChartTitle.Format.TextFrame2.TextRange.Font.Fill.ForeColor.RGB = RGBImpCymruColourPrimary("Navy")
+        cht.ChartTitle.Format.TextFrame2.TextRange.Font.Fill.ForeColor.RGB = ImpCymruColours.RGBImpCymruColourPrimary("Navy")
     End If
     
 
@@ -620,7 +555,7 @@ Sub FormatPieChart(cht As Chart)
     For i = 1 To srs.Points.Count
         Set pnt = srs.Points(i)
         
-        pnt.Format.Fill.ForeColor.RGB = RGBImpCymruColourQualitative(i)
+        pnt.Format.Fill.ForeColor.RGB = ImpCymruColours.RGBImpCymruColourQualitative(i)
         pnt.DataLabel.Position = xlLabelPositionOutsideEnd
         pnt.DataLabel.Format.TextFrame2.TextRange.Font.Fill.ForeColor.RGB = pnt.Format.Fill.ForeColor.RGB
  
@@ -818,7 +753,7 @@ End Sub
 
 Sub FormatBarOrColumnSeries(chtSeries As Series, Optional dataSeriesIndex As Variant)
 
-    chtSeries.Format.Fill.ForeColor.RGB = RGBImpCymruColourQualitative(dataSeriesIndex)
+    chtSeries.Format.Fill.ForeColor.RGB = ImpCymruColours.RGBImpCymruColourQualitative(dataSeriesIndex)
     chtSeries.Format.Line.Visible = msoFalse
 
 End Sub
@@ -881,7 +816,7 @@ Sub FormatRunChartCL(chtSeries As Series)
         PntDashStyle(i) = chtSeries.Points(i).Format.Line.DashStyle
     Next i
     
-    chtSeries.Format.Line.ForeColor.RGB = RGBImpCymruColourAnalytical("GoldenHamster")
+    chtSeries.Format.Line.ForeColor.RGB = ImpCymruColours.RGBImpCymruColourAnalytical("GoldenHamster")
     chtSeries.Format.Line.Weight = 1.5
     chtSeries.MarkerStyle = xlMarkerStyleNone
 
@@ -943,7 +878,7 @@ Sub FormatBasicLineChartSeries(chtSeries As Series, Optional dataSeriesIndex As 
     chtSeries.MarkerForegroundColorIndex = xlColorIndexNone
     
     chtSeries.MarkerBackgroundColor = RGB(255, 255, 255)
-    chtSeries.Format.Line.ForeColor.RGB = RGBImpCymruColourQualitative(dataSeriesIndex)
+    chtSeries.Format.Line.ForeColor.RGB = ImpCymruColours.RGBImpCymruColourQualitative(dataSeriesIndex)
     
     chtSeries.Format.Line.Weight = 3
     
@@ -1019,7 +954,7 @@ Sub FormatSPCWithLinesCL(chtSeries As Series)
         PntDashStyle(i) = chtSeries.Points(i).Format.Line.DashStyle
     Next i
     
-    chtSeries.Format.Line.ForeColor.RGB = RGBImpCymruColourAnalytical("GoldenHamster")
+    chtSeries.Format.Line.ForeColor.RGB = ImpCymruColours.RGBImpCymruColourAnalytical("GoldenHamster")
     chtSeries.Format.Line.Weight = 1.5
     chtSeries.MarkerStyle = xlMarkerStyleNone
 
