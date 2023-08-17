@@ -334,7 +334,12 @@ Sub AddCaption(cht As Chart)
     Set txtBox = cht.Shapes.AddTextbox(msoTextOrientationHorizontal, 8, cht.ChartArea.Height - 20, cht.ChartArea.Width - (2 * 8), 16)
     
     txtBox.Name = captionName
-    txtBox.TextFrame.Characters.Text = "Created by Improvement Cymru"
+    
+    If IsImpCymru.CurrentUserIsImprovementCymru() Then
+        txtBox.TextFrame.Characters.Text = "Created by Improvement Cymru"
+    Else
+        txtBox.TextFrame.Characters.Text = "Created using the Improvement Cymru Autoformatter"
+    End If
     FormatCaption txtBox
 
 End Sub
