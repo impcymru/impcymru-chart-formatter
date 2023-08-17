@@ -415,7 +415,7 @@ Sub FormatChartTitles(cht As Chart)
         cht.ChartTitle.Format.TextFrame2.TextRange.Font.Size = 16
         cht.ChartTitle.HorizontalAlignment = xlHAlignLeft
         cht.ChartTitle.Left = 15
-        cht.ChartTitle.Format.TextFrame2.TextRange.Font.Fill.ForeColor.RGB = ImpCymruColours.RGBImpCymruColourPrimary("Navy")
+        cht.ChartTitle.Format.TextFrame2.TextRange.Font.Fill.ForeColor.RGB = Formatting.RGBColourTitle()
     End If
     
 
@@ -555,7 +555,7 @@ Sub FormatPieChart(cht As Chart)
     For i = 1 To srs.Points.Count
         Set pnt = srs.Points(i)
         
-        pnt.Format.Fill.ForeColor.RGB = ImpCymruColours.RGBImpCymruColourQualitative(i)
+        pnt.Format.Fill.ForeColor.RGB = Formatting.RGBColourQualitative(i)
         pnt.DataLabel.Position = xlLabelPositionOutsideEnd
         pnt.DataLabel.Format.TextFrame2.TextRange.Font.Fill.ForeColor.RGB = pnt.Format.Fill.ForeColor.RGB
  
@@ -753,7 +753,7 @@ End Sub
 
 Sub FormatBarOrColumnSeries(chtSeries As Series, Optional dataSeriesIndex As Variant)
 
-    chtSeries.Format.Fill.ForeColor.RGB = ImpCymruColours.RGBImpCymruColourQualitative(dataSeriesIndex)
+    chtSeries.Format.Fill.ForeColor.RGB = Formatting.RGBColourQualitative(dataSeriesIndex)
     chtSeries.Format.Line.Visible = msoFalse
 
 End Sub
@@ -816,7 +816,7 @@ Sub FormatRunChartCL(chtSeries As Series)
         PntDashStyle(i) = chtSeries.Points(i).Format.Line.DashStyle
     Next i
     
-    chtSeries.Format.Line.ForeColor.RGB = ImpCymruColours.RGBImpCymruColourAnalytical("GoldenHamster")
+    chtSeries.Format.Line.ForeColor.RGB = Formatting.RGBColourRunChartCentreLine()
     chtSeries.Format.Line.Weight = 1.5
     chtSeries.MarkerStyle = xlMarkerStyleNone
 
@@ -878,7 +878,7 @@ Sub FormatBasicLineChartSeries(chtSeries As Series, Optional dataSeriesIndex As 
     chtSeries.MarkerForegroundColorIndex = xlColorIndexNone
     
     chtSeries.MarkerBackgroundColor = RGB(255, 255, 255)
-    chtSeries.Format.Line.ForeColor.RGB = ImpCymruColours.RGBImpCymruColourQualitative(dataSeriesIndex)
+    chtSeries.Format.Line.ForeColor.RGB = Formatting.RGBColourQualitative(dataSeriesIndex)
     
     chtSeries.Format.Line.Weight = 3
     
@@ -926,7 +926,7 @@ Sub FormatSPCWithLinesUCLOrLCL(chtSeries As Series)
         PntDashStyle(i) = chtSeries.Points(i).Format.Line.DashStyle
     Next i
     
-    chtSeries.Format.Line.ForeColor.RGB = RGB(180, 180, 180)
+    chtSeries.Format.Line.ForeColor.RGB = Formatting.RGBColourSPCControlLimit()
     chtSeries.Format.Line.Weight = 1.5
     chtSeries.MarkerStyle = xlMarkerStyleNone
     
@@ -954,7 +954,7 @@ Sub FormatSPCWithLinesCL(chtSeries As Series)
         PntDashStyle(i) = chtSeries.Points(i).Format.Line.DashStyle
     Next i
     
-    chtSeries.Format.Line.ForeColor.RGB = ImpCymruColours.RGBImpCymruColourAnalytical("GoldenHamster")
+    chtSeries.Format.Line.ForeColor.RGB = Formatting.RGBColourSPCCentreLine()
     chtSeries.Format.Line.Weight = 1.5
     chtSeries.MarkerStyle = xlMarkerStyleNone
 
@@ -967,3 +967,4 @@ Sub FormatSPCWithLinesCL(chtSeries As Series)
     Next i
 
 End Sub
+
