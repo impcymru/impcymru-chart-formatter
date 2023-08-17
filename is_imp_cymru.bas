@@ -3,7 +3,7 @@ Dim CurrentUserIsImprovementCymruCachedFlag As Boolean
 
 Function CurrentUserIsImprovementCymru() As Boolean
     CurrentUserIsImprovementCymru = False
-    
+
     If CurrentUserIsImprovementCymruCachedFlag Then
         CurrentUserIsImprovementCymru = CurrentUserIsImprovementCymruCachedValue
         Exit Function
@@ -42,3 +42,14 @@ Sub TestCurrentUserIsImprovementCymru()
     End If
 
 End Sub
+
+Sub ForceCurrentUserNotImprovementCymru()
+    CurrentUserIsImprovementCymruCachedValue = False
+    CurrentUserIsImprovementCymruCachedFlag = True
+End Sub
+
+Sub ForceCurrentUserIsImprovementCymru()
+    CurrentUserIsImprovementCymruCachedValue = True
+    CurrentUserIsImprovementCymruCachedFlag = True
+End Sub
+
